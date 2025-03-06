@@ -7,3 +7,30 @@ html, body, #root {
   margin: 0;
   padding: 0;
 }
+@layer components {
+  .layer-accordion-header {
+    @apply bg-[#00a8e0] text-white p-2 flex justify-between items-center cursor-pointer;
+  }
+  .layer-accordion-header:hover {
+    @apply bg-[#0097c9];
+  }
+  .layer-accordion-content {
+    @apply bg-white p-2;
+  }
+  .layer-item {
+    @apply flex items-center p-2 hover:bg-gray-100;
+  }
+  .layer-checkbox {
+    @apply mr-2;
+  }
+  .layer-label {
+    @apply flex items-center text-sm cursor-pointer;
+  }
+  .map-control-button {
+    @apply bg-white p-2 rounded shadow hover:bg-gray-100;
+  }
+}
+/* Ocultar los controles de OpenLayers que queremos personalizar */
+.ol-zoom, .ol-zoomslider {
+  display: none;
+}

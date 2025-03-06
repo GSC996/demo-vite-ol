@@ -1,6 +1,6 @@
 import { useState } from "react";
-import MapComponent from "./components/Map";
-import "./App.css";
+import MapComponent from "./components/map/Map";
+import "./styles/App.css";
 
 function App() {
   const [zoom, setZoom] = useState(4);

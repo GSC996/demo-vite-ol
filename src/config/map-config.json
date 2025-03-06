@@ -1,0 +1,143 @@
+{
+  "mapConfig": {
+    "center": {
+      "latitude": -40,
+      "longitude": -59
+    },
+    "zoom": {
+      "initial": 4,
+      "min": 3,
+      "max": 21
+    }
+  },
+  "metaTags": {
+    "description": "Visor de mapas desarrollado por el Instituto Geográfico Nacional",
+    "image": "/src/styles/images/argenmap.png",
+    "title": "IGN - Argenmap"
+  },
+  "title": "IGN - Argenmap",
+  "website": "https://www.ign.gob.ar/",
+  "logo": {
+    "title": "Instituto Geográfico Nacional",
+    "link": "https://www.ign.gob.ar/",
+    "src": "https://static.ign.gob.ar/img/logo/Logo-MinDef-IGN-Visores.svg"
+  },
+  "plugins": {},
+  "basemap": [
+    {
+      "titulo": "Argenmap",
+      "nombre": "argenmap",
+      "servicio": "tms",
+      "version": "1.0.0",
+      "attribution": "<a href='https://www.ign.gob.ar/AreaServicios/Argenmap/Introduccion' target='_blank'>Instituto Geográfico Nacional</a> + <a href='https://www.osm.org/copyright' target='_blank'>OpenStreetMap</a>",
+      "host": "https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png",
+      "legendImg": "src/styles/images/argenmap.png",
+      "legend": "src/config/styles/images/legends/argenmap.jpg",
+      "peso": 10,
+      "selected": true,
+      "zoom": {
+        "min": 3,
+        "max": 19
+      }
+    },
+    {
+      "titulo": "Argenmap gris",
+      "nombre": "argenmap_gris",
+      "servicio": "tms",
+      "version": "1.0.0",
+      "attribution": "<a href='https://www.ign.gob.ar/AreaServicios/Argenmap/Introduccion' target='_blank'>Instituto Geográfico Nacional</a> + <a href='https://www.osm.org/copyright' target='_blank'>OpenStreetMap</a>",
+      "host": "https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/mapabase_gris@EPSG%3A3857@png/{z}/{x}/{-y}.png",
+      "legendImg": "src/styles/images/argenmap-gris.png",
+      "legend": "src/config/styles/images/legends/argenmap-gris.jpg",
+      "peso": 20,
+      "zoom": {
+        "min": 3,
+        "max": 19
+      }
+    },
+    {
+      "titulo": "OpenStreetMap",
+      "nombre": "osm",
+      "servicio": "osm",
+      "version": "1.0.0",
+      "attribution": "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
+      "host": "",
+      "legendImg": "src/styles/images/osm.png",
+      "legend": "src/config/styles/images/legends/osm.jpg",
+      "peso": 30,
+      "zoom": {
+        "min": 3,
+        "max": 19
+      }
+    },
+    {
+      "titulo": "Satellite",
+      "nombre": "satellite",
+      "servicio": "xyz",
+      "version": "1.0.0",
+      "attribution": "© Esri",
+      "host": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      "legendImg": "src/styles/images/satellite.png",
+      "legend": "src/config/styles/images/legends/satellite.jpg",
+      "peso": 40,
+      "zoom": {
+        "min": 3,
+        "max": 19
+      }
+    },
+    {
+      "titulo": "Topographic",
+      "nombre": "topo",
+      "servicio": "xyz",
+      "version": "1.0.0",
+      "attribution": "© OpenTopoMap",
+      "host": "https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png",
+      "legendImg": "src/styles/images/topo.png",
+      "legend": "src/config/styles/images/legends/topo.jpg",
+      "peso": 50,
+      "zoom": {
+        "min": 3,
+        "max": 17
+      }
+    }
+  ],
+  "layers": [
+    {
+      "tab": {
+        "id": "IG",
+        "searcheable": true,
+        "content": "Info. Geoespacial"
+      },
+      "type": "wms",
+      "peso": 20,
+      "nombre": "Límites y unidades territoriales",
+      "short_abstract": "Provincias, departamentos, municipios, áreas protegidas, etc.",
+      "class": "",
+      "seccion": "limites",
+      "servicio": "wms",
+      "version": "1.3.0",
+      "host": "https://wms.ign.gob.ar/geoserver/limites/wms",
+      "icons": {
+        "hitos_internacionales": "src/config/styles/images/legends/hitos_internacionales.svg",
+        "hitos_interprovinciales": "src/config/styles/images/legends/hitos_internacionales.svg",
+        "gobiernoslocales_2020": "src/config/styles/images/legends/gobierno_local.svg"
+      }
+    },
+    {
+      "tab": {
+        "id": "IG",
+        "searcheable": true,
+        "content": "Info. Geoespacial"
+      },
+      "type": "wms",
+      "peso": 25,
+      "nombre": "Asentamientos humanos",
+      "short_abstract": "Asentamientos humanos de la República Argentina",
+      "class": "",
+      "seccion": "asentamientos-humanos",
+      "servicio": "wms",
+      "version": "1.3.0",
+      "host": "https://wms.ign.gob.ar/geoserver/asentamientos_humanos/wms"
+    }
+  ]
+}

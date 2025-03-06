@@ -12,7 +12,7 @@ function Navbar({ logo, title, onMenuClick }) {
         )}
       </div>
 
-      <div className="flex items-center">
+      {/* <div className="flex items-center">
         <div className="relative mr-4 w-64">
           <input type="text" placeholder="Buscar..." className="w-full rounded py-1 px-3 text-black" />
           <button className="absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-600">
@@ -27,7 +27,7 @@ function Navbar({ logo, title, onMenuClick }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-      </div>
+      </div> */}
     </nav>
   );
 }

@@ -22,7 +22,7 @@ function App() {
       <div className="flex flex-1 relative overflow-hidden">
         {/* Menú de capas */}
         {showLayersMenu && (
-          <div className="absolute top-0 left-0 z-10 h-full bg-white shadow-lg overflow-auto w-80">
+          <div className="absolute top-0 left-0 z-10000 h-full bg-white shadow-lg overflow-auto w-80">
             <LayersMenu layers={config.layers} activeTab={activeTab} onTabChange={setActiveTab} />
           </div>
         )}

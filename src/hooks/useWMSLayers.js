@@ -10,50 +10,64 @@ export function useWMSLayers() {
   const { config } = useConfig();
   const [visibleLayers, setVisibleLayers] = useState([]);
   const [subLayers, setSubLayers] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Efecto para cargar las capacidades de los servicios WMS
   useEffect(() => {
-    if (!map || !config) return;
+    // Si el mapa no está disponible, no hacemos nada
+    if (!map || !config) {
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
 
     const fetchWMSCapabilities = async () => {
       const result = {};
 
-      for (const layer of config.layers) {
-        try {
-          const response = await fetch(`${layer.host}?SERVICE=WMS&VERSION=${layer.version}&REQUEST=GetCapabilities`);
-          const text = await response.text();
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(text, "text/xml");
+      try {
+        for (const layer of config.layers) {
+          try {
+            const response = await fetch(`${layer.host}?SERVICE=WMS&VERSION=${layer.version}&REQUEST=GetCapabilities`);
+            const text = await response.text();
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(text, "text/xml");
 
-          const layerElements = xmlDoc.getElementsByTagName("Layer");
-          const layers = [];
+            const layerElements = xmlDoc.getElementsByTagName("Layer");
+            const layers = [];
 
-          for (let i = 1; i < layerElements.length; i++) { // Empezamos desde 1 para omitir la capa raíz
-            const name = layerElements[i].getElementsByTagName("Name")[0]?.textContent;
-            const title = layerElements[i].getElementsByTagName("Title")[0]?.textContent;
+            for (let i = 1; i < layerElements.length; i++) { // Empezamos desde 1 para omitir la capa raíz
+              const name = layerElements[i].getElementsByTagName("Name")[0]?.textContent;
+              const title = layerElements[i].getElementsByTagName("Title")[0]?.textContent;
 
-            if (name) {
-              // Verificar si tenemos un icono definido para esta capa
-              const iconPath = layer.icons?.[name];
+              if (name) {
+                // Verificar si tenemos un icono definido para esta capa
+                const iconPath = layer.icons?.[name];
 
-              layers.push({
-                name,
-                title: title || name,
-                icon: iconPath,
-                host: layer.host,
-                version: layer.version
-              });
+                layers.push({
+                  name,
+                  title: title || name,
+                  icon: iconPath,
+                  host: layer.host,
+                  version: layer.version
+                });
+              }
             }
+
+            result[layer.seccion] = layers;
+          } catch (error) {
+            console.error(`Error fetching capabilities for ${layer.host}:`, error);
           }
-
-          result[layer.seccion] = layers;
-        } catch (error) {
-          console.error(`Error fetching capabilities for ${layer.host}:`, error);
         }
-      }
 
-      setSubLayers(result);
-      console.log('Sublayers:', result);
+        setSubLayers(result);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching WMS capabilities:", error);
+        setError(error);
+        setLoading(false);
+      }
     };
 
     fetchWMSCapabilities();
@@ -61,6 +75,8 @@ export function useWMSLayers() {
 
   // Función para alternar la visibilidad de una capa
   const toggleLayerVisibility = (subLayer) => {
+    if (!map) return;
+
     const layerName = subLayer.name;
 
     if (isLayerVisible(layerName)) {
@@ -106,6 +122,8 @@ export function useWMSLayers() {
   return {
     toggleLayerVisibility,
     isLayerVisible,
-    subLayers
+    subLayers,
+    loading,
+    error
   };
 }

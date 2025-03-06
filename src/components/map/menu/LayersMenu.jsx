@@ -4,7 +4,7 @@ import { useWMSLayers } from "../../../hooks/useWMSLayers";
 
 function LayersMenu({ layers, activeTab, onTabChange }) {
   const [expandedLayers, setExpandedLayers] = useState({});
-  const { toggleLayerVisibility, isLayerVisible, subLayers } = useWMSLayers();
+  const { toggleLayerVisibility, isLayerVisible, subLayers, loading, error } = useWMSLayers();
 
   // Agrupar capas por tab
   const groupedLayers = layers.reduce((acc, layer) => {
@@ -26,6 +26,32 @@ function LayersMenu({ layers, activeTab, onTabChange }) {
       [layerName]: !prev[layerName],
     }));
   };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col h-full bg-gray-50">
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <p>Cargando capas...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col h-full bg-gray-50">
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center text-red-500 p-4">
+            <p>Error al cargar las capas. Por favor, intente nuevamente.</p>
+            <p className="text-sm mt-2">{error.message}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-full bg-gray-50">
@@ -73,20 +99,24 @@ function LayersMenu({ layers, activeTab, onTabChange }) {
             {/* Subcapas (solo visibles cuando la capa está expandida) */}
             {expandedLayers[layer.nombre] && (
               <div className="bg-white p-2">
-                {subLayers[layer.seccion]?.map((subLayer) => (
-                  <div key={subLayer.name} className="flex items-center p-2 hover:bg-gray-100">
-                    <input type="checkbox" id={subLayer.name} checked={isLayerVisible(subLayer.name)} onChange={() => toggleLayerVisibility(subLayer)} className="mr-2" />
-                    <label htmlFor={subLayer.name} className="flex items-center text-sm cursor-pointer">
-                      {subLayer.icon && <img src={subLayer.icon} alt="" className="w-4 h-4 mr-2" />}
-                      {subLayer.title}
-                    </label>
-                    <button className="ml-auto text-gray-500 hover:text-gray-700">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </button>
-                  </div>
-                ))}
+                {subLayers[layer.seccion]?.length > 0 ? (
+                  subLayers[layer.seccion].map((subLayer) => (
+                    <div key={subLayer.name} className="flex items-center p-2 hover:bg-gray-100">
+                      <input type="checkbox" id={subLayer.name} checked={isLayerVisible(subLayer.name)} onChange={() => toggleLayerVisibility(subLayer)} className="mr-2" />
+                      <label htmlFor={subLayer.name} className="flex items-center text-sm cursor-pointer">
+                        {subLayer.icon && <img src={subLayer.icon} alt="" className="w-4 h-4 mr-2" />}
+                        {subLayer.title}
+                      </label>
+                      <button className="ml-auto text-gray-500 hover:text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                  <div className="p-4 text-center text-gray-500">No se encontraron subcapas disponibles</div>
+                )}
               </div>
             )}
           </div>

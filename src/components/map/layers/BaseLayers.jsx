@@ -15,7 +15,23 @@ export function useBaseLayers(map) {
     if (!map || !config) return;
 
     const layers = {};
-    const baseMapsList = {};
+
+    // Encontrar el mapa base con menor peso o el primero si no tienen peso
+    let defaultBaseMap = null;
+    let lowestWeight = Infinity;
+
+    config.basemap.forEach((baseMapConfig) => {
+      // Si es el primer elemento y no hay peso definido aún
+      if (defaultBaseMap === null) {
+        defaultBaseMap = baseMapConfig.nombre;
+      }
+
+      // Si tiene peso y es menor que el actual más bajo
+      if (baseMapConfig.peso !== undefined && baseMapConfig.peso < lowestWeight) {
+        lowestWeight = baseMapConfig.peso;
+        defaultBaseMap = baseMapConfig.nombre;
+      }
+    });
 
     // Crear las capas a partir de la configuración
     config.basemap.forEach((baseMapConfig) => {
@@ -37,7 +53,8 @@ export function useBaseLayers(map) {
       const layer = new TileLayer({
         source,
         title: baseMapConfig.titulo,
-        visible: baseMapConfig.selected === true,
+        // Visible solo si es el mapa base por defecto
+        visible: baseMapConfig.nombre === defaultBaseMap,
         properties: {
           name: baseMapConfig.nombre,
         },
@@ -48,13 +65,10 @@ export function useBaseLayers(map) {
 
       // Añadir la capa al mapa
       map.addLayer(layer);
-
-      // Definir el mapa base seleccionado por defecto
-      if (baseMapConfig.selected) {
-        setSelectedBaseMap(baseMapConfig.nombre);
-      }
     });
 
+    // Establecer el mapa base seleccionado por defecto
+    setSelectedBaseMap(defaultBaseMap);
     setBaseLayers(layers);
 
     // Cleanup function

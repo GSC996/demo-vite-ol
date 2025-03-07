@@ -34,3 +34,13 @@ html, body, #root {
 .ol-zoom, .ol-zoomslider {
   display: none;
 }
+/* Navbar */
+/* Estilos adicionales para el Navbar */
+@media (max-width: 900px) {
+  nav.bg-\[\#0072b8\] {
+    width: auto !important;
+    min-width: 0 !important;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}

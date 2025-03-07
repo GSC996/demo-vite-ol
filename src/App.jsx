@@ -17,16 +17,17 @@ function App() {
 
   return (
     <div className="flex flex-col h-screen">
-      <Navbar logo={config.logo} title={config.title} onMenuClick={() => setShowLayersMenu(!showLayersMenu)} />
-
+      {/* Navbar flotante */}
+      <div className="absolute top-0 left-0 z-10 m-2.5">
+        <Navbar logo={config.logo} title={config.title} />
+      </div>
+      {/* Menú de capas */}
+      {showLayersMenu && (
+        <div className="absolute top-10 left-0 z-100 h-full bg-black shadow-lg overflow-auto w-80">
+          <LayersMenu layers={config.layers} activeTab={activeTab} onTabChange={setActiveTab} />
+        </div>
+      )}
       <div className="flex flex-1 relative overflow-hidden">
-        {/* Menú de capas */}
-        {showLayersMenu && (
-          <div className="absolute top-0 left-0 z-10000 h-full bg-white shadow-lg overflow-auto w-80">
-            <LayersMenu layers={config.layers} activeTab={activeTab} onTabChange={setActiveTab} />
-          </div>
-        )}
-
         {/* Componente del mapa */}
         <div className="w-full h-full">
           <MapComponent />

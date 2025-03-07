@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import "ol/ol.css"; // Añade esta línea para importar los estilos de OpenLayers
+import "ol/ol.css";
 import "./styles/index.css";
 
 // Modificar el título del documento basado en la configuración

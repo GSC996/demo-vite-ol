@@ -11,11 +11,11 @@ function BaseLayerSelector({ baseLayers, selectedBaseMap, onSelect }) {
         <button key={baseLayer.nombre} className={`flex flex-col items-center p-2 rounded hover:bg-gray-100 min-w-[85px] transition-all ${selectedBaseMap === baseLayer.nombre ? "ring-2 ring-blue-500" : ""}`} onClick={() => onSelect(baseLayer.nombre)}>
           <div className="w-16 h-16 bg-gray-200 rounded overflow-hidden mb-1 shadow-sm">
             <img
-              src={baseLayer.legendImg || `/placeholder-${baseLayer.nombre}.png`}
+              src={baseLayer.legendImg || ``}
               alt={baseLayer.titulo}
               className="w-full h-full object-cover"
               onError={(e) => {
-                e.target.src = "https://via.placeholder.com/64";
+                e.target.src = "";
               }}
             />
           </div>

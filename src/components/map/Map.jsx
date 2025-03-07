@@ -29,7 +29,7 @@ function MapComponent() {
         </button>
       </div>
 
-      {/* Selector de mapa base estilo Google Maps */}
+      {/* Selector de mapa base*/}
       <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
         <div className="flex flex-col items-center">
           <button onClick={() => setShowBaseLayerSelector(!showBaseLayerSelector)} className="bg-white rounded-full p-2 shadow mb-2 hover:bg-gray-100">
